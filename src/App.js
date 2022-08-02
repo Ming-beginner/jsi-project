@@ -1,12 +1,19 @@
 import React from 'react';
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import {Navbar, Footer} from './components'
 import routes from './pages/routes'
 
 function App() {
   return (
-    <div className="App">
-      <h1>Hello World</h1>
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        {routes.map(({path, Page}, index) =>{
+          return <Route key={index} path={path} element={<Page />} />
+        })}
+      </Routes>
+      <Footer />
+    </Router>
   );
 }
 

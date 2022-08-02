@@ -1,15 +1,19 @@
-import React from 'react';
 import Home from './Home';
 import Chatapp from './Chatapp';
+import Login from './Login';
 
 const routes = [
     {
-        component: Home,
+        Page: Home,
         path: '/'
     },
     {
-        component: Chatapp,
+        Page: Chatapp,
         path: '/chatapp'
+    },
+    {
+        Page: Login,
+        path: '/login'
     }
 ]
 
