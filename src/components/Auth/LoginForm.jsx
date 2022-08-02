@@ -14,24 +14,14 @@ const LoginForm = () => {
 
     setValidated(true);
   };
-  const schema = yup.object().shape({
+  const loginSchema = yup.object().shape({
     email: yup.string().email('Invalid email').required('Email is required'),
     password: yup.string().min(8, 'Password must be at least 8 characters long.')
   });
   return (
     <Formik
         initialValues={{ email: '', password: '', terms: false, }}
-        validate={values => {
-            const errors = {};
-            if (!values.email) {
-                errors.email = 'Required';
-            } else if (
-                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-            ) {
-                errors.email = 'Invalid email address';
-            }
-            return errors;
-       }}
+        vvalidationSchema={loginSchema}
     >
         {({
          values,
