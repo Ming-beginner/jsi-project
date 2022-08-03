@@ -1,6 +1,7 @@
 import Home from './Home';
 import Chatapp from './Chatapp';
 import Login from './Login';
+import Signup from './Signup';
 
 const routes = [
     {
@@ -14,6 +15,10 @@ const routes = [
     {
         Page: Login,
         path: '/login'
+    },
+    {
+        Page: Signup,
+        path: '/signup'
     }
 ]
 

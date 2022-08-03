@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
 import { getDatabase } from "firebase/database";
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 
 const env = process.env;
 
@@ -18,5 +19,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getDatabase(app)
+const storage = getStorage(app);
 
-export {auth, db};
+export {auth, db, signOut, ref, storage, getDownloadURL};

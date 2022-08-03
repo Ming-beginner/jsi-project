@@ -16,3 +16,15 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
         monospace;
 }
+
+.cursor-pointer {
+    cursor: pointer;
+}
+hr {
+    border: 0;
+    clear: both;
+    display: block;
+    width: 96%;
+    background-color: #000;
+    height: 1px;
+}
