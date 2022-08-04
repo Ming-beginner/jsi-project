@@ -1,13 +1,13 @@
 import React, {useEffect} from 'react';
 import {useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth';
-import {useNavigate} from 'react-router-dom'
+import {useCurrentUser, doc, db, updateDoc} from '../../firebase';
+import {useNavigate} from 'react-router-dom';
 import {Form, Button} from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import { auth } from '../../firebase';
 import Loading from '../Loading';
 import ErrorModal from '../ErrorModal';
-import { useAuth } from '../../context/AuthContext';
 import logo from '../../assets/imgs/logo.png';
 
 const LoginForm = () => {
@@ -17,7 +17,7 @@ const LoginForm = () => {
     loading,
     error,
   ] = useSignInWithEmailAndPassword(auth);
-  const {setCurrentUser} = useAuth();
+  const currentUser = useCurrentUser();
   const navigate = useNavigate();
   const loginSchema = yup.object().shape({
     email: yup.string().email('Invalid email').required('Email is required'),
@@ -25,11 +25,15 @@ const LoginForm = () => {
   });
   useEffect(()=>{
     if(user){
-      setCurrentUser(user.user);
+      navigate('/');
+    }
+  }, [user])
+  useEffect(()=>{
+    if(currentUser){
+      updateDoc(doc(db, 'users', currentUser.uid), {isOnline: true})
       navigate('/');
     }
   })
-  console.log(error);
   return (
     <div 
       className='d-flex justify-content-center align-items-center flex-column px-5 py-3 w-100'

@@ -7,9 +7,9 @@ function App() {
   return (
     <Router>
       <Navbar />
-      <div className='d-flex'>
+      <div className='d-flex' style={{background:'var(--bg-color)', minHeight:'100vh', paddingTop: 106, }}>
         <Sidebar />
-        <Routes className='flex-fill'>
+        <Routes className='flex-fill' >
             {routes.map(({path, Page}, index) =>{
               return <Route className='flex-fill' key={index} path={path} element={<Page />} />
             })}
