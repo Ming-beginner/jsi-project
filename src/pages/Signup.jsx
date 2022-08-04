@@ -1,9 +1,10 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {LoginWithGoogle} from '../components'
-import {SignupForm} from '../components'
+import {LoginWithGoogle} from '../components';
+import {SignupForm} from '../components';
 
 const Signup = () => {
+ 
   return (
     <div 
       className='position-fixed fixed-top fixed-bottom d-flex justify-content-center align-items-center w-100 bg-white'

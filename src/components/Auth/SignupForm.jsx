@@ -5,12 +5,10 @@ import {useNavigate} from 'react-router-dom'
 import {Form, Button} from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import { auth, storage, ref, getDownloadURL } from '../../firebase';
+import { auth, storage, ref, getDownloadURL, useCurrentUser, db, doc, setDoc } from '../../firebase';
 import Loading from '../Loading';
 import ErrorModal from '../ErrorModal';
-import { useAuth } from '../../context/AuthContext';
 import logo from '../../assets/imgs/logo.png';
-import defaultAvatar from '../../assets/imgs/default-avatar.png';
 
 
 const SignupForm = () => {
@@ -20,26 +18,31 @@ const SignupForm = () => {
         loading,
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
+    const currentUser = useCurrentUser();
     const [uploadFile, uploading, snapshot, fileError] = useUploadFile();
     const [updateProfile, updating, profileError] = useUpdateProfile(auth);
     const [avatar, setAvatar] = useState();
     const [username, setUsername] = useState('user');
-    const {setCurrentUser} = useAuth();
     const navigate = useNavigate();
     const updateUserInfo = async () =>{
         const avatarRef = ref(storage, `avatar/${user.user.uid}.png`);
-        let avatarUrl = defaultAvatar;
+        const userDoc = doc(db, 'users', user.user.uid);
+        let avatarUrl = 'https://firebasestorage.googleapis.com/v0/b/jsi-project-cfc82.appspot.com/o/avatar%2Fdefault-avatar.png?alt=media&token=64779989-ca0e-47ec-8485-4e6e6ee801a8';
         if (avatar) {
             await uploadFile(avatarRef, avatar, {
                 contentType: 'image/png'
             });
             const downloadUrl = await getDownloadURL(avatarRef);
-            console.log(downloadUrl);
-            avatarUrl = downloadUrl? downloadUrl:defaultAvatar;
+            avatarUrl = downloadUrl? downloadUrl:avatarUrl;
         }
-        console.log(avatarUrl);
+        
         await updateProfile({displayName: username, photoURL: avatarUrl});
-        setCurrentUser(user.user);
+        await setDoc(userDoc, {
+            uid: currentUser.uid,
+            name: currentUser.displayName,
+            avatar: avatarUrl,
+            isOnline: true,
+        })
         navigate('/');
     }
     const signupSchema = yup.object().shape({
@@ -48,6 +51,11 @@ const SignupForm = () => {
         passwordConfirmation: yup.string().required('Password confirmation is required')
         .oneOf([yup.ref('password'), null], 'Incorrect password')
     });
+    useEffect(()=>{
+        if(currentUser){
+            navigate('/');
+        }
+    }, [])
     useEffect(()=>{
         if(user){
             updateUserInfo();
@@ -66,7 +74,6 @@ const SignupForm = () => {
         <Formik
             initialValues={{ email: '', password: '', passwordConfirmation: ''}}
             onSubmit={values => {
-                console.log('submit');
                 createUserWithEmailAndPassword(values.email, values.password);
             }}
             validationSchema={signupSchema}

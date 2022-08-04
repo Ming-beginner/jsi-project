@@ -1,27 +1,25 @@
 import React, {useEffect} from 'react';
-import { useAuth } from '../context/AuthContext';
-import {auth, signOut} from '../firebase';
+import {useCurrentUser} from '../firebase';
 import {useNavigate} from 'react-router-dom';
+import { useNavItemContext } from '../context/navItemContext';
 
 const Home = () => {
-  const {currentUser}= useAuth();
   const navigate = useNavigate();
-  const handleSignOut = () =>{
-    signOut(auth)
-    .then(() =>navigate('/login'));
-  }
+  const currentUser = useCurrentUser();
+  const {setActiveNavItem} = useNavItemContext();
+
+  
   useEffect(()=>{
     if(!currentUser){
       navigate('/login')
     } else {
-      console.log(currentUser);
+      setActiveNavItem('home');
     }
-  }, [currentUser, navigate]);
+  });
   if(currentUser){
     return (
-      <div>
+      <div className='d-flex justify-content-center align-items-center w-100'>
         Hello user {currentUser.displayName}
-        <button onClick={handleSignOut}>Sign out</button>
       </div>
     )
   }

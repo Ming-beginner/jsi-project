@@ -5,22 +5,16 @@ import {Button} from 'react-bootstrap';
 import {auth} from '../../firebase';
 import ErrorModal from '../ErrorModal';
 import Loading from '../Loading'
-import { useAuth } from '../../context/AuthContext';
 import {useNavigate} from 'react-router-dom';
 
 const LogInWithGoogle = () => {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
-  const userState = useAuth();
   const navigate = useNavigate();
   const handleSubmt = () =>{
     signInWithGoogle();
   }
   if(user) {
-    userState.setCurrentUser(user.user);
     navigate('/');
-  }
-  if(error){
-    console.log(error);
   }
   return (
     <div className="w-50 border mb-3">  
