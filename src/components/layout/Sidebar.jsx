@@ -28,7 +28,7 @@ const Sidebar = () => {
     }
   ]
   return (
-    <div className={clsx('sidebar position-fixed start-0 border border-end bg-white h-100', {'sidebar-active': activeNavItem==='home'})}>
+    <div className={clsx('sidebar position-fixed start-0 border border-end bg-white h-100 shadow', {'sidebar-active': activeNavItem==='home'})}>
       {sidebarItemsList.map(item=>{
         return (
           <Link key={item.path} to={item.path} className={clsx('text-decoration-none w-100 p-2 d-flex cursor-pointer sidebar-item my-2', {'sidebar-item-active': activeNavItem===item.name})}>

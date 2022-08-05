@@ -27,11 +27,11 @@ const Header = () => {
   const handleSignOut = async () =>{
     await updateDoc(doc(db, 'users', currentUser.uid), {isOnline: false});
     await signOut(auth);
-    navigate('/login')
+    navigate('/login');
   }
   if(currentUser){
     return (
-      <Navbar style={{background: '#fff'}} expand='lg' className='position-fixed top-0 w-100'>
+      <Navbar style={{background: '#fff', zIndex: 100}} expand='lg' className='position-fixed top-0 w-100 shadow-sm '>
         <Container fluid className='px-3 d-flex flex-column flex-lg-row'>
           <div className='d-flex align-items-center justify-content-between navbar-top'>
             <Link className='navbar-brand' to='/'>
@@ -59,7 +59,12 @@ const Header = () => {
                 </div>
               )
             })}
-            <NavDropdown title={<img height={50} width={50} className='rounded-circle navbar-bottom-dropdown' src={currentUser.photoURL} alt='avatar' />} id='basic-nav-dropdown' align='end'>
+            <NavDropdown 
+              title={<img height={50} width={50} className='rounded-circle navbar-bottom-dropdown' src={currentUser.photoURL} alt='avatar' />} 
+              id='basic-nav-dropdown' 
+              align='end'
+              style={{zIndex: 3000}}
+            >
               <Link className='dropdown-item' to='/profile'>
                 <img src={currentUser.photoURL} className='rounded-circle' height={40} width={40} alt='avatar'/>
                 <span className='ms-3'>{currentUser.displayName}</span>

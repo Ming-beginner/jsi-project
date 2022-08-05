@@ -1,0 +1,19 @@
+.user-wrapper {
+    border-radius: 15px;
+}
+.user-wrapper:hover {
+    transition: all 0.3s linear;
+    background: rgb(224, 224, 224);
+    cursor: pointer;
+}
+.user-status {
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+}
+.online {
+    background: #34eb52;
+}
+.offline {
+    background: #eb4034;
+}

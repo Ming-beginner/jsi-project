@@ -2,7 +2,7 @@ import React from 'react';
 import {useSignInWithGoogle} from 'react-firebase-hooks/auth';
 import GoogleIcon from '@mui/icons-material/Google';
 import {Button} from 'react-bootstrap';
-import {auth} from '../../firebase';
+import {auth, doc, db, setDoc} from '../../firebase';
 import ErrorModal from '../ErrorModal';
 import Loading from '../Loading'
 import {useNavigate} from 'react-router-dom';
@@ -13,9 +13,21 @@ const LogInWithGoogle = () => {
   const handleSubmt = () =>{
     signInWithGoogle();
   }
-  if(user) {
+  const saveUserInfo = async()=>{
+    const userDoc = doc(db, 'users', user.user.uid);
+    await setDoc(userDoc, {
+      uid: user.user.uid,
+      name: user.user.displayName,
+      email: user.user.email,
+      avatar: user.user.photoURL,
+      isOnline: true,
+    })
     navigate('/');
   }
+  if(user) {
+    saveUserInfo();
+  }
+  
   return (
     <div className="w-50 border mb-3">  
         <ErrorModal error={error} />

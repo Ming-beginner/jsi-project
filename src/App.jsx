@@ -1,6 +1,6 @@
 import React from 'react';
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import {Navbar, Footer, Sidebar} from './components'
+import {Navbar, Sidebar} from './components'
 import routes from './pages/routes'
 
 function App() {
@@ -15,7 +15,6 @@ function App() {
             })}
         </Routes>
       </div>
-      <Footer />
     </Router>
   );
 }

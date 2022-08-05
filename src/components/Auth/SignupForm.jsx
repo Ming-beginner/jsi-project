@@ -40,6 +40,7 @@ const SignupForm = () => {
         await setDoc(userDoc, {
             uid: currentUser.uid,
             name: currentUser.displayName,
+            email: currentUser.email,
             avatar: avatarUrl,
             isOnline: true,
         })

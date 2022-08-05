@@ -1,5 +1,5 @@
 import Home from './Home';
-import { Chatapp } from './Chatapp';
+import Chatapp from './Chatapp';
 import Login from './Login';
 import Signup from './Signup';
 import Settings from './Settings';
