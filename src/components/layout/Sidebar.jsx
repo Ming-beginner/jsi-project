@@ -1,5 +1,5 @@
 import React from 'react';
-import {Home, QuestionAnswer} from '@mui/icons-material';
+import {Home, QuestionAnswer, Settings} from '@mui/icons-material';
 import {Link} from 'react-router-dom'
 import clsx from 'clsx'
 import './sidebar.css';
@@ -19,6 +19,12 @@ const Sidebar = () => {
       path: '/chat',
       title: 'Chat',
       icon: <QuestionAnswer fontSize='large' />
+    },
+    {
+      name: 'settings',
+      path: '/settings',
+      title: 'Settings',
+      icon: <Settings fontSize='large' />
     }
   ]
   return (
@@ -27,7 +33,7 @@ const Sidebar = () => {
         return (
           <Link key={item.path} to={item.path} className={clsx('text-decoration-none w-100 p-2 d-flex cursor-pointer sidebar-item my-2', {'sidebar-item-active': activeNavItem===item.name})}>
             {item.icon}
-            <span className='ms-4 sidebar-item-name '>{item.title}</span>
+            <span className='ms-4 sidebar-item-name'>{item.title}</span>
           </Link> 
         )
       })}

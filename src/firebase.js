@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, signOut } from "firebase/auth";
-import {getFirestore, doc, setDoc, updateDoc } from "firebase/firestore";
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
+import {getFirestore, doc, setDoc, updateDoc, where, collection, onSnapshot, query, Timestamp } from "firebase/firestore";
+import { getStorage, ref, getDownloadURL, uploadBytes, deleteObject } from 'firebase/storage';
 import { useAuthState } from "react-firebase-hooks/auth";
 
 const env = process.env;
@@ -27,4 +27,4 @@ const auth = getAuth(app);
 const db = getFirestore(app)
 const storage = getStorage(app);
 
-export {auth, db, signOut, ref, storage, getDownloadURL, useCurrentUser, doc, setDoc, updateDoc};
+export {auth, db, signOut, ref, storage, getDownloadURL, useCurrentUser, doc, setDoc, updateDoc, where, collection, onSnapshot, query, Timestamp, uploadBytes,deleteObject };

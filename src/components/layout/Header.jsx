@@ -3,7 +3,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {Navbar, NavDropdown, Nav, Container, InputGroup, Form} from 'react-bootstrap';
 import clsx from 'clsx';
 import {useCurrentUser, signOut, auth, updateDoc, doc, db} from '../../firebase';
-import {Home, Search, QuestionAnswer, ExitToApp, Security} from '@mui/icons-material';
+import {Home, Search, QuestionAnswer, ExitToApp, Settings} from '@mui/icons-material';
 import { useNavItemContext } from '../../context/navItemContext';
 import logo from '../../assets/imgs/logo.png';
 import './header.css';
@@ -52,7 +52,7 @@ const Header = () => {
           <Nav className='d-flex align-items-center navbar-bottom'>
             {navItemsList.map(item=>{
               return (
-                <div className={clsx('me-3 d-flex', {'navbar-bottom-item-active':activeNavItem===item.name })}>
+                <div key={item.path} className={clsx('me-3 d-flex', {'navbar-bottom-item-active':activeNavItem===item.name })}>
                   <Link className='nav-link rounded-circle d-flex justify-content-center align-items-center' style={{width: 50, height: 50, background:'var(--bg-color)'}} to={item.path}>
                     {item.icon}
                   </Link>
@@ -65,8 +65,8 @@ const Header = () => {
                 <span className='ms-3'>{currentUser.displayName}</span>
               </Link>
               <Link className='dropdown-item' to='/setting'>
-                <Security />
-                <span className='ms-3'>Personal information</span>
+                <Settings />
+                <span className='ms-3'>Settings</span>
               </Link>
               <NavDropdown.Divider />
               <NavDropdown.Item onClick={handleSignOut}>
