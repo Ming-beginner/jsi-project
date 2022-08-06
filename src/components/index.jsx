@@ -8,4 +8,6 @@ export {default as LoginWithGoogle} from './auth/LoginWithGoogle';
 export {default as User} from './chatapp/User';
 export {default as MessageForm} from './chatapp/MessageForm';
 export {default as Message} from './chatapp/Message';
-
+export {default as ChatNotification} from './ChatNotification';
+export {default as Post} from './Post';
+export {default as ProfileHeader} from './ProfileHeader';

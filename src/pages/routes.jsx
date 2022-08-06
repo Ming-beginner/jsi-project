@@ -4,32 +4,42 @@ import Login from './Login';
 import Signup from './Signup';
 import Settings from './Settings';
 import Profile from './Profile';
+import SavedPosts from './SavedPosts';
+import ShowPost from './ShowPost';
 
 const routes = [
     {
         Page: Home,
-        path: '/'
+        path: '/',
     },
     {
         Page: Chatapp,
-        path: '/chat'
+        path: '/chat',
     },
     {
         Page: Login,
-        path: '/login'
+        path: '/login',
     },
     {
         Page: Signup,
-        path: '/signup'
+        path: '/signup',
     },
     {
         Page: Settings,
-        path: '/settings'
+        path: '/settings',
     },
     {
         Page: Profile,
-        path: '/profile'
-    }
-]
+        path: '/profile',
+    },
+    {
+        Page: SavedPosts,
+        path: '/saved-posts',
+    },
+    {
+        Page: ShowPost,
+        path: '/show-post',
+    },
+];
 
-export default routes
+export default routes;
