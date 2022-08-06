@@ -81,33 +81,35 @@ const Chatapp = () => {
         const user2 = chat.uid;
         const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
         let url;
-        if (img) {
-            const imgRef = ref(
-                storage,
-                `images/${new Date().getTime()} - ${img.name}}`
-            );
-            const snap = await uploadBytes(imgRef, img);
-            const downloadUrl = await getDownloadURL(
-                ref(storage, snap.ref.fullPath)
-            );
-            url = downloadUrl;
+        if (message.length || img) {
+            if (img) {
+                const imgRef = ref(
+                    storage,
+                    `images/${new Date().getTime()} - ${img.name}}`
+                );
+                const snap = await uploadBytes(imgRef, img);
+                const downloadUrl = await getDownloadURL(
+                    ref(storage, snap.ref.fullPath)
+                );
+                url = downloadUrl;
+            }
+            await addDoc(collection(db, 'message', id, 'chat'), {
+                message,
+                from: user1,
+                to: user2,
+                createdAt: Timestamp.fromDate(new Date()),
+                media: url || '',
+            });
+            await setDoc(doc(db, 'lastMsg', id), {
+                message,
+                from: user1,
+                to: user2,
+                createdAt: Timestamp.fromDate(new Date()),
+                media: url || '',
+                unread: true,
+            });
+            setMessage('');
         }
-        await addDoc(collection(db, 'message', id, 'chat'), {
-            message,
-            from: user1,
-            to: user2,
-            createdAt: Timestamp.fromDate(new Date()),
-            media: url || '',
-        });
-        await setDoc(doc(db, 'lastMsg', id), {
-            message,
-            from: user1,
-            to: user2,
-            createdAt: Timestamp.fromDate(new Date()),
-            media: url || '',
-            unread: true,
-        });
-        setMessage('');
     };
 
     if (currentUser) {
