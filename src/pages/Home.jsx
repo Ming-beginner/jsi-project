@@ -17,10 +17,7 @@ const Home = () => {
     });
     if (currentUser) {
         return (
-            <div
-                className='d-flex justify-content-center align-items-center w-100'
-                style={{marginTop: 106, marginLeft: 62}}
-            >
+            <div className='d-flex justify-content-center align-items-center w-100'>
                 Hello user {currentUser.displayName}
             </div>
         );

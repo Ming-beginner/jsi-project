@@ -2,12 +2,11 @@ import React, {useState, useEffect} from 'react';
 import {Modal, Button} from 'react-bootstrap';
 import clsx from 'clsx';
 
-const ErrorModal = ({error}) => {
-    const [show, setShow] = useState(!!error);
+const SuccessModal = ({success}) => {
+    const [show, setShow] = useState(!!success);
     useEffect(() => {
-        setShow(error);
-    }, [error]);
-    error = error ? error.code.split('/')[1].split('-').join(' ') : null;
+        setShow(success);
+    }, [success]);
     const handleClose = () => setShow(false);
     return (
         <div
@@ -17,17 +16,13 @@ const ErrorModal = ({error}) => {
             )}
             style={{background: 'rgba(0, 0, 0, 0.8)'}}
         >
-            <Modal
-                show={show}
-                onHide={handleClose}
-                style={{zIndex: '3000 !important'}}
-            >
+            <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title style={{color: 'red'}}>Error!</Modal.Title>
+                    <Modal.Title style={{color: 'green'}}>Sucess</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>{error}</Modal.Body>
+                <Modal.Body>{success}</Modal.Body>
                 <Modal.Footer>
-                    <Button variant='warning' onClick={handleClose}>
+                    <Button variant='success' onClick={handleClose}>
                         OK
                     </Button>
                 </Modal.Footer>
@@ -36,4 +31,4 @@ const ErrorModal = ({error}) => {
     );
 };
 
-export default ErrorModal;
+export default SuccessModal;

@@ -114,10 +114,10 @@ const Chatapp = () => {
 
     if (currentUser) {
         return (
-            <div className='d-flex justify-content-center align-items-center w-100 h-100'>
+            <div className='d-flex justify-content-center align-items-center w-100'>
                 <div
                     className='d-flex h-100 w-100 border border-end'
-                    style={{marginLeft: 412}}
+                    style={{marginLeft: 350}}
                 >
                     <div
                         className='border position-fixed h-100 bg-white p-2 chat-user-container'

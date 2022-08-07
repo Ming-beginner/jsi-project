@@ -11,3 +11,5 @@ export {default as Message} from './chatapp/Message';
 export {default as ChatNotification} from './ChatNotification';
 export {default as Post} from './Post';
 export {default as ProfileHeader} from './ProfileHeader';
+export {default as SettingProfile} from './SettingProfile';
+export {default as SuccessModal} from './SuccessModal';

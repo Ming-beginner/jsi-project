@@ -1,5 +1,10 @@
 import {initializeApp} from 'firebase/app';
-import {getAuth, signOut} from 'firebase/auth';
+import {
+    getAuth,
+    signOut,
+    reauthenticateWithCredential,
+    EmailAuthProvider,
+} from 'firebase/auth';
 import {
     getFirestore,
     doc,
@@ -67,4 +72,6 @@ export {
     updateDoc,
     getDoc,
     signOut,
+    reauthenticateWithCredential,
+    EmailAuthProvider,
 };

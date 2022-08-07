@@ -133,7 +133,7 @@ const Header = () => {
                                     {currentUser.displayName}
                                 </span>
                             </Link>
-                            <Link className='dropdown-item' to='/setting'>
+                            <Link className='dropdown-item' to='/settings'>
                                 <Settings />
                                 <span className='ms-3'>Settings</span>
                             </Link>
