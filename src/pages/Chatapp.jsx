@@ -107,6 +107,8 @@ const Chatapp = () => {
                 createdAt: Timestamp.fromDate(new Date()),
                 media: url || '',
                 unread: true,
+                authorName: currentUser.displayName,
+                authorAvatar: currentUser.photoURL,
             });
             setMessage('');
         }
@@ -137,7 +139,11 @@ const Chatapp = () => {
                             'bg-white flex-fill position-relative justify-content-center w-100 bottom-0 chat-messages-container',
                             {'chat-messages-container-active': chat}
                         )}
-                        style={{height: 'calc(100vh - 106px)', zIndex: 1}}
+                        style={{
+                            height: 'calc(100vh - 106px)',
+                            zIndex: 1,
+                            top: 106,
+                        }}
                     >
                         {chat ? (
                             <>
@@ -168,7 +174,7 @@ const Chatapp = () => {
                                     className='message-container position-absolute bottom-0 w-100'
                                     style={{
                                         height: 'calc(100% - 99px)',
-                                        overflow: 'scroll',
+                                        overflowY: 'scroll',
                                     }}
                                 >
                                     <div

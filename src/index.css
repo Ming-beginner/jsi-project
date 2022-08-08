@@ -51,6 +51,7 @@ hr {
         top: 172px !important;
     }
     .message-container {
+        top: 57px !important;
         bottom: 88px !important;
     }
     .chat-messages-container-active {
@@ -69,11 +70,20 @@ hr {
     }
 }
 
-/*Setting*/
+/*Search*/
+.search-item:hover {
+    background: rgb(182, 181, 181);
+    color: #333 !important;
+}
 
 @media (max-width: 992px) {
+    /*Setting*/
     .app-container {
         margin-top: 172px !important;
+        margin-left: 0 !important;
+    }
+    /*Home*/
+    .home-container {
         margin-left: 0 !important;
     }
 }

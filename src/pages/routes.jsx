@@ -5,7 +5,8 @@ import Signup from './Signup';
 import Settings from './Settings';
 import Profile from './Profile';
 import SavedPosts from './SavedPosts';
-import ShowPost from './ShowPost';
+import Search from './Search';
+import Post from './Post';
 
 const routes = [
     {
@@ -31,14 +32,20 @@ const routes = [
     {
         Page: Profile,
         path: '/profile',
+        subPath: ':uid',
     },
     {
         Page: SavedPosts,
         path: '/saved-posts',
     },
     {
-        Page: ShowPost,
-        path: '/show-post',
+        Page: Search,
+        path: '/search',
+    },
+    {
+        Page: Post,
+        path: '/post',
+        subPath: ':postId',
     },
 ];
 

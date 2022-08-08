@@ -18,6 +18,7 @@ import {
     addDoc,
     orderBy,
     getDoc,
+    getDocs,
 } from 'firebase/firestore';
 import {
     getStorage,
@@ -74,4 +75,5 @@ export {
     signOut,
     reauthenticateWithCredential,
     EmailAuthProvider,
+    getDocs,
 };

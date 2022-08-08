@@ -30,7 +30,7 @@ const User = ({user, selectUser, user1}) => {
                     />
                     <h4 className='ms-3'>{user.name}</h4>
                     {data?.from !== user1 && data?.unread && (
-                        <small className='bg-primary rounded-pill text-white ms-1 px-1'>
+                        <small className='bg-danger rounded-pill text-white ms-1 px-1'>
                             New
                         </small>
                     )}
