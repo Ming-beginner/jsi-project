@@ -50,6 +50,7 @@ const Setting = () => {
                 setAvatarPreview({preview: docSnap.data().avatar});
             }
         };
+        document.body.style.overflow = 'visible';
         if (!currentUser) {
             navigate('/login');
         } else {
@@ -213,7 +214,7 @@ const Setting = () => {
                                             <img
                                                 src={avatarPreview.preview}
                                                 alt='avatar'
-                                                className='border border-dark rounded-circle'
+                                                className='rounded-circle'
                                                 height={70}
                                                 width={70}
                                             />
@@ -319,8 +320,8 @@ const Setting = () => {
                                         OOPS!!!
                                     </Popover.Header>
                                     <Popover.Body>
-                                        You are using Google as the provider.
-                                        There's no need to change the password.
+                                        You are using Google as the provider so
+                                        you cannot use this feature.
                                     </Popover.Body>
                                 </Popover>
                             ) : (

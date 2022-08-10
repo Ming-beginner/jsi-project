@@ -25,12 +25,12 @@ const SettingProfile = ({generalSettingItems}) => {
                                         alt='Avatar'
                                         height={60}
                                         width={60}
-                                        className='rounded-circle border border-dark'
+                                        className='rounded-circle'
                                     />
                                 ) : item.value ? (
                                     item.value
                                 ) : (
-                                    '""'
+                                    ''
                                 )}
                             </td>
                         </tr>

@@ -13,3 +13,6 @@ export {default as Post} from './Post';
 export {default as ProfileHeader} from './ProfileHeader';
 export {default as SettingProfile} from './SettingProfile';
 export {default as SuccessModal} from './SuccessModal';
+export {default as CreatePost} from './CreatePost';
+export {default as SearchUser} from './SearchUser';
+export {default as SavedPost} from './SavedPost';

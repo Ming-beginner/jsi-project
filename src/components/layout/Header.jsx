@@ -9,6 +9,7 @@ import {
     Form,
 } from 'react-bootstrap';
 import clsx from 'clsx';
+import {getUsers} from '../../services/search';
 import {
     useCurrentUser,
     signOut,
@@ -47,6 +48,7 @@ const Header = () => {
     const [searchUser, setSearchUser] = useState([]);
     const [isPending, startTransition] = useTransition();
     const searchRef = useRef();
+    const searchBtnRef = useRef();
     const navItemsList = [
         {
             name: 'home',
@@ -65,27 +67,13 @@ const Header = () => {
         navigate('/login');
     };
     useEffect(() => {
-        const getUsers = async () => {
-            const users = [];
-            const q = query(
-                collection(db, 'users'),
-                where('uid', 'not-in', [currentUser.uid])
-            );
-
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach((doc) => {
-                users.push(doc.data());
-            });
-            const userFiltered = users.map((user) => {
-                const index = user.name
-                    .toLowerCase()
-                    .indexOf(searchFilterValue.toLowerCase());
-                return index !== -1 ? user : 0;
-            });
-            setSearchUser(searchFilterValue ? userFiltered : []);
+        const getSearchUser = async () => {
+            setSearchUser(await getUsers(currentUser.uid, searchFilterValue));
         };
-        if (currentUser) {
-            getUsers();
+        if (currentUser && searchFilterValue.length) {
+            getSearchUser();
+        } else {
+            setSearchUser([]);
         }
     }, [searchFilterValue, currentUser]);
     const [notification, setNotification] = useState(false);
@@ -102,6 +90,7 @@ const Header = () => {
                         doc.data().unread
                     ) {
                         unreadMessages.push(doc.data());
+                        console.log(unreadMessages);
                     }
                 });
                 setNotification(!!unreadMessages.length);
@@ -147,10 +136,17 @@ const Header = () => {
                             <Link
                                 id='basic-addon1'
                                 className='d-flex justify-content-center align-items-center bg-white cursor-pointer border border-dark text-dark px-2'
-                                to={`/search?${searchValue}`}
+                                to={`/search?q=${searchValue}`}
+                                style={{
+                                    pointerEvents: searchValue.length
+                                        ? 'auto'
+                                        : 'none',
+                                }}
                                 onClick={() => {
+                                    searchRef.current.blur();
                                     setSearchResultContainer('invisible');
                                 }}
+                                ref={searchBtnRef}
                             >
                                 <Search />
                             </Link>
@@ -170,12 +166,17 @@ const Header = () => {
                                     setSearchResultContainer('visible')
                                 }
                                 onBlur={handleBlurSearch}
+                                onKeyDown={(e) => {
+                                    if (e.key === 'Enter') {
+                                        searchBtnRef.current.click();
+                                    }
+                                }}
                                 ref={searchRef}
                             />
                             <div
                                 tabIndex='0'
                                 className={clsx(
-                                    'position-absolute w-100 bg-white overflow-auto rounded-2 shadow border-top d-flex justify-content-center p-3',
+                                    'position-absolute w-100 bg-white overflow-auto rounded-2 shadow border-top d-flex flex-column justify-content-center p-3',
                                     {
                                         'd-none':
                                             searchResultContainer ===
@@ -195,11 +196,49 @@ const Header = () => {
                                         className='align-self-center'
                                     />
                                 ) : searchUser.length ? (
-                                    <SearchUser data={searchUser} />
+                                    <>
+                                        <SearchUser data={searchUser} />
+                                        <Link
+                                            to={`/search?q=${searchValue}`}
+                                            onClick={() => {
+                                                setSearchResultContainer(
+                                                    'invisible'
+                                                );
+                                            }}
+                                            className='ms-3'
+                                        >
+                                            More
+                                        </Link>
+                                    </>
                                 ) : (
                                     <p className='fs-5 align-self-center'>
                                         Nothing
                                     </p>
+                                )}
+                                {searchFilterValue && (
+                                    <Link
+                                        to={`/search?q=${searchValue}`}
+                                        onClick={() => {
+                                            setSearchResultContainer(
+                                                'invisible'
+                                            );
+                                        }}
+                                        className='d-flex justify-content-start w-100 mt-auto px-3 align-items-center'
+                                    >
+                                        <div
+                                            className='bg-primary rounded-circle d-flex justify-content-center align-items-center cursor-pointer me-2'
+                                            style={{
+                                                aspectRatio: '1/1',
+                                                height: 45,
+                                            }}
+                                        >
+                                            <Search
+                                                fontSize='large'
+                                                style={{color: 'white'}}
+                                            />
+                                        </div>
+                                        Search for {searchValue}
+                                    </Link>
                                 )}
                             </div>
                         </InputGroup>
@@ -255,7 +294,7 @@ const Header = () => {
                         >
                             <Link
                                 className='dropdown-item'
-                                to={`/profile?uid=${currentUser.uid}`}
+                                to={`/profile?uid/{currentUser.uid}`}
                             >
                                 <img
                                     src={currentUser.photoURL}
@@ -272,7 +311,7 @@ const Header = () => {
                                 <Settings />
                                 <span className='ms-3'>Settings</span>
                             </Link>
-                            <Link className='dropdown-item' to='/saved-posts'>
+                            <Link className='dropdown-item' to='/saved'>
                                 <Bookmark />
                                 <span className='ms-3'>Saved posts</span>
                             </Link>

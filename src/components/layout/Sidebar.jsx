@@ -34,8 +34,8 @@ const Sidebar = () => {
             icon: <Settings fontSize='large' />,
         },
         {
-            name: 'saved-posts',
-            path: '/saved-posts',
+            name: 'saved',
+            path: '/saved',
             title: 'Saved posts',
             icon: <Bookmark fontSize='large' />,
         },
@@ -55,6 +55,7 @@ const Sidebar = () => {
                         doc.data().unread
                     ) {
                         unreadMessages.push(doc.data());
+                        console.log(unreadMessages);
                     }
                 });
                 setNotification(!!unreadMessages.length);

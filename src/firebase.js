@@ -14,6 +14,7 @@ import {
     collection,
     onSnapshot,
     query,
+    limit,
     Timestamp,
     addDoc,
     orderBy,
@@ -76,4 +77,5 @@ export {
     reauthenticateWithCredential,
     EmailAuthProvider,
     getDocs,
+    limit,
 };

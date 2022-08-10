@@ -4,7 +4,7 @@ import Login from './Login';
 import Signup from './Signup';
 import Settings from './Settings';
 import Profile from './Profile';
-import SavedPosts from './SavedPosts';
+import Saved from './Saved';
 import Search from './Search';
 import Post from './Post';
 
@@ -35,8 +35,8 @@ const routes = [
         subPath: ':uid',
     },
     {
-        Page: SavedPosts,
-        path: '/saved-posts',
+        Page: Saved,
+        path: '/saved',
     },
     {
         Page: Search,

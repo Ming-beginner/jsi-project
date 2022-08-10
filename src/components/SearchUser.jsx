@@ -10,7 +10,7 @@ const SearchUser = ({data}) => {
                     return (
                         <Link
                             tabIndex='0'
-                            className='w-100 d-flex justify-content-start p-2 align-items-center rounded-2 search-item text-decoration-none'
+                            className='w-100 d-flex justify-content-start bg-white p-3 align-items-center rounded-2 search-item text-decoration-none mb-2'
                             key={index}
                             to={`/profile?uid=${user.uid}`}
                         >
@@ -26,6 +26,8 @@ const SearchUser = ({data}) => {
                             </p>
                         </Link>
                     );
+                } else {
+                    return <p>No user found</p>;
                 }
             })}
         </div>

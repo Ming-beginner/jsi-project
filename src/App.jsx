@@ -55,7 +55,7 @@ function App() {
                 className='d-flex app-container'
                 style={{
                     background: 'var(--bg-color)',
-                    minHeight: '100vh',
+                    minHeight: 'calc(100vh - 106px)',
                     marginLeft: 62,
                     marginTop: 106,
                 }}

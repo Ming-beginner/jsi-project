@@ -113,7 +113,6 @@ const Chatapp = () => {
             setMessage('');
         }
     };
-
     if (currentUser) {
         return (
             <div className='d-flex justify-content-center align-items-center w-100'>
@@ -123,7 +122,12 @@ const Chatapp = () => {
                 >
                     <div
                         className='border position-fixed h-100 bg-white p-2 chat-user-container'
-                        style={{left: 62, overflowY: 'scroll', width: 350}}
+                        style={{
+                            left: 62,
+                            overflowY: 'scroll',
+                            width: 350,
+                            zIndex: 2,
+                        }}
                     >
                         {users.map((user) => (
                             <User
@@ -136,13 +140,11 @@ const Chatapp = () => {
                     </div>
                     <div
                         className={clsx(
-                            'bg-white flex-fill position-relative justify-content-center w-100 bottom-0 chat-messages-container',
+                            'bg-white flex-fill position-relative justify-content-center w-100 bottom-0 chat-messages-container h-100',
                             {'chat-messages-container-active': chat}
                         )}
                         style={{
-                            height: 'calc(100vh - 106px)',
                             zIndex: 1,
-                            top: 106,
                         }}
                     >
                         {chat ? (
