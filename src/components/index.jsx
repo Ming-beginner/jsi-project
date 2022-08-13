@@ -16,3 +16,6 @@ export {default as SuccessModal} from './SuccessModal';
 export {default as CreatePost} from './CreatePost';
 export {default as SearchUser} from './SearchUser';
 export {default as SavedPost} from './SavedPost';
+export {default as Comment} from './comment/Comment';
+export {default as CommentsList} from './comment/CommentsList';
+export {default as CreateComment} from './comment/CreateComment';

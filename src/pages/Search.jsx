@@ -57,7 +57,11 @@ const Search = () => {
                         textDecoration: 'underline',
                     }}
                 >
-                    {showAllUsers ? 'Show less' : 'Show all'}
+                    {allUsers.length > 3
+                        ? showAllUsers
+                            ? 'Show less'
+                            : 'Show all'
+                        : ''}
                 </button>
             </div>
             <div className='d-flex flex-column w-100 px-2 py-3'>

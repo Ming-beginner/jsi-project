@@ -33,7 +33,7 @@ const Home = () => {
                         userAvatar={currentUser.photoURL}
                         isVisible={createPostModal}
                         setCreatePostModal={setCreatePostModal}
-                        userId={currentUser.uid}
+                        user={currentUser}
                     />
                 )}
                 <div

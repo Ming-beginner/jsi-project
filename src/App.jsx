@@ -69,7 +69,7 @@ function App() {
                                 key={index}
                                 path={path}
                             >
-                                <Route path=':userId' element={<Page />} />
+                                <Route path={subPath} element={<Page />} />
                             </Route>
                         ) : (
                             <Route

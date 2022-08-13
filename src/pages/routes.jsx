@@ -6,7 +6,7 @@ import Settings from './Settings';
 import Profile from './Profile';
 import Saved from './Saved';
 import Search from './Search';
-import Post from './Post';
+import SearchPost from './SearchPost';
 
 const routes = [
     {
@@ -43,7 +43,7 @@ const routes = [
         path: '/search',
     },
     {
-        Page: Post,
+        Page: SearchPost,
         path: '/post',
         subPath: ':postId',
     },

@@ -3,6 +3,7 @@ import {v4 as uuidv4} from 'uuid';
 import {useDropzone} from 'react-dropzone';
 import clsx from 'clsx';
 import {useUploadFile} from 'react-firebase-hooks/storage';
+import {getDoc} from '../firebase';
 import {Form, Button} from 'react-bootstrap';
 import {Image, Close} from '@mui/icons-material';
 import {Link} from 'react-router-dom';
@@ -20,7 +21,7 @@ import {
     ref,
 } from '../firebase';
 
-const CreatePost = ({userName, userAvatar, setCreatePostModal, userId}) => {
+const CreatePost = ({userName, userAvatar, setCreatePostModal, user}) => {
     const [audience, setAudience] = useState('public');
     const [postContent, setPostContent] = useState('');
     const [imgContainer, setImgContainer] = useState(false);
@@ -50,12 +51,16 @@ const CreatePost = ({userName, userAvatar, setCreatePostModal, userId}) => {
     };
     const postPost = async () => {
         const postRef = collection(db, 'post');
-        const authorRef = doc(db, 'users', userId);
+        const author = {
+            name: user.displayName,
+            avatar: user.photoURL,
+            uid: user.uid,
+        };
         const imageURLs = [];
         const postData = {
             content: postContent,
             images: imageURLs,
-            author: authorRef,
+            author,
             createdAt: Timestamp.fromDate(new Date()),
             updatedAt: Timestamp.fromDate(new Date()),
             likes: 0,
@@ -133,7 +138,7 @@ const CreatePost = ({userName, userAvatar, setCreatePostModal, userId}) => {
                     <div className='d-flex flex-column'>
                         <div className='d-flex align-items-center justify-content-between pe-2'>
                             <div className='d-flex justify-content-center align-items-center '>
-                                <Link to={`/profile/${userId}`}>
+                                <Link to={`/profile/${user.uid}`}>
                                     <img
                                         src={userAvatar}
                                         alt='avatar'

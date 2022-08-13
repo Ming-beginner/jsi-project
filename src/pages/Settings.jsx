@@ -91,7 +91,9 @@ const Setting = () => {
             .email('Invalid email')
             .required('Email is required'),
         name: yup.string().required('Username is required'),
-        bio: yup.string(),
+        bio: yup
+            .string()
+            .max(100, 'Bio cannot be more than 50 characters long'),
     });
     const passwordSchema = yup.object().shape({
         current: yup

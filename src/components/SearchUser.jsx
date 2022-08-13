@@ -12,7 +12,7 @@ const SearchUser = ({data}) => {
                             tabIndex='0'
                             className='w-100 d-flex justify-content-start bg-white p-3 align-items-center rounded-2 search-item text-decoration-none mb-2'
                             key={index}
-                            to={`/profile?uid=${user.uid}`}
+                            to={`/profile/${user.uid}`}
                         >
                             <img
                                 src={user.avatar}

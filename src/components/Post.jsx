@@ -1,71 +1,126 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
-    BookmarkBorderOutlined,
-    DeleteOutline,
-    MoreHoriz,
-    ThumbUp,
-    ModeCommentOutlined,
-    Share,
-    Circle,
+  BookmarkBorderOutlined,
+  DeleteOutline,
+  Edit,
+  MoreHoriz,
+  ThumbUp,
+  ModeCommentOutlined,
+  Share,
+  Public,
+  LockOutlined,
 } from '@mui/icons-material';
+import Moment from 'react-moment';
+import {
+  db,
+  collection,
+  onSnapshot,
+  where,
+  query,
+  useCurrentUser,
+} from '../firebase';
 
 import Dropdown from 'react-bootstrap/Dropdown';
-import {useState} from "react";
 
-const Post = () => {
-    return <div className ='d-flex flex-column flex-lg-row justify-content-center align-items-center bg-white border border-radius-15 box-shadow-sm' style={{maxWidth: 510, minHeight:662 }} >Post
-        <div className ='bd-white'>
-            <div style={{width:61 , height:61 , marginTop:-247 , marginLeft: 198}} ></div>
-            <Circle style={{width:61 , height:61 , marginTop:247 , marginLeft:-198}}></Circle>
-            <p>Username</p>
-             {        
-    function SplitBasicExample() {
-      return (
+const Post = ({post}) => {
+  console.log(post);
+  const [comments, setComments] = useState({});
+  const [liked, setLiked] = useState(false);
+  const currentUser = useCurrentUser();
+  useEffect(() => {
+    const q = query(collection(db, 'comments'), where('postId', '==', post.id));
+    const unsub = onSnapshot(q, (querySnapshot) => {
+      const comments = {};
+      querySnapshot.forEach((doc) => {
+        let comment = doc.data();
+        comment.id = doc.id;
+        comments[comment.parentId] ||= [];
+        comments[comment.parentId].push(comment);
+      });
+      setComments(comments);
+    });
+  }, []);
+  const updatePost = () => {};
+  return (
+    <div style={{minWidth: 500}} className='bg-white mb-4'>
+      <div>
+        <div className='d-flex justify-content-between align-items-center'>
+          <div className='d-flex align-items-center px-2'>
+            <img
+              src={post.author.avatar}
+              alt='avatar'
+              className='rounded-circle me-2'
+              style={{aspectRatio: '1/1 !important'}}
+              width={50}
+            />
+            <div>
+              <span className='fs-4'>{post.author.name}</span>
+              <div>
+                <span className='text-black-50'>
+                  <Moment fromNow ago className='me-1'>
+                    {post.createdAt.toDate()}
+                  </Moment>
+                  ·
+                  {post.audiance === 'public' ? (
+                    <Public style={{fontSize: 15}} className='ms-1' />
+                  ) : (
+                    <LockOutlined style={{fontSize: 15}} className='ms-1' />
+                  )}
+                </span>
+              </div>
+            </div>
+          </div>
+          <Dropdown>
+            <Dropdown.Toggle
+              className='bg-white border-0 shadow-none'
+              id='dropdown-basic'
+            >
+              <MoreHoriz className='text-dark' />
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <Dropdown.Item>
+                <BookmarkBorderOutlined /> Save post
+              </Dropdown.Item>
+              {
+                (post.author.uid = currentUser.uid && (
+                  <>
+                    <Dropdown.Item>
+                      <Edit /> Edit post
+                    </Dropdown.Item>
+                    <Dropdown.Item>
+                      <DeleteOutline /> Delete post
+                    </Dropdown.Item>
+                  </>
+                ))
+              }
+            </Dropdown.Menu>
+          </Dropdown>
+        </div>
+        <div className='w-100'>
           <div>
-        <Dropdown as={ButtonGroup}>
-          <MoreHoriz style={{width:45 , height:45 , marginTop :-243 , marginLeft :238}} variant="success" ></MoreHoriz> 
-    
-          <Dropdown.Toggle split variant="success" id="dropdown-split-basic" />
-    
-          <Dropdown.Menu>
-            <Dropdown.Item href="#/action-1">{ <BookmarkBorderOutlined style={{width:37 , height:37, matginTop: -198, marginLeft :111 }}> <p style={{width:7 , height:33 , marginTop:-191 , marginLeft: 157}}>Save Post</p></BookmarkBorderOutlined>}</Dropdown.Item>
-            <Dropdown.Item href="#/action-2">{<DeleteOutline>  <p className='w-112 line-height-l h-33'>Delete post </p></DeleteOutline>}</Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
+            <p>{post.content}</p>
+          </div>
+          {post.images.length > 0 && <div></div>}
         </div>
-      );
-    }}
-    {
-function Seemore ({children}) {
-    const [isSeeMoreShown, setSeeMoreShown] =useState(False)
-    const toggleBtn =()=>{
-        setSeeMoreShown(prevState=>! prevSate)
-    }
-    return(
-<div className ="read-more-read-less">
-    {isSeeMoreShown ? children:children. 
-    substr(0,200)}
-    <button onclick ={toggleBtn}>See more</button>
-</div>
-    )
-}}
-      
-        </div>
-        <div style={{width: 510,height: 328,background:D9D9D9}}> </div>
-        <ThumbUp style={{width: 56,height: 31}}>Like</ThumbUp>
-        <p> 1K</p>
-        <p>126 Comment</p>
-        <hr></hr>
         <div>
-            <ThumbUp class='Like' style={{Width:56,Height:31,marginTop: 351,marginLeft:-184}}>Like</ThumbUp>
-            <ModeCommentOutlined style={{width: 56,height: 31, marginTop:351, marginLeft:26 }}>Comment</ModeCommentOutlined>
-            <Share style={{Width:38,Height:38, marginTop:348, marginLeft:138}}>Share</Share>
-
+          <div></div>
+          <div className='d-flex'>
+            <div className='flex-grow-1 d-flex justify-content-center alin-items-center p-3'>
+              <ThumbUp className='me-2 post-item' />
+              like
+            </div>
+            <div className='flex-grow-1 d-flex justify-content-center alin-items-center p-3'>
+              <ModeCommentOutlined className='me-2 post-item' />
+              Comments
+            </div>
+            <div className='flex-grow-1 d-flex justify-content-center alin-items-center p-3'>
+              <Share className='me-2 post-item' />
+              Share
+            </div>
+          </div>
         </div>
-    </div>;
-
-
+      </div>
+    </div>
+  );
 };
-
-export default  {Seemore ,SplitBasicExample} ;
-export { Post };
+export default Post;
