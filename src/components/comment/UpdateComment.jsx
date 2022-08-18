@@ -1,10 +1,11 @@
-import React, {useState, useRef} from 'react';
+import React from 'react';
 import {v4 as uuidv4} from 'uuid';
+import {useState, useEffect, useRef} from 'react';
 import {Form, InputGroup} from 'react-bootstrap';
 import {FileUpload, Send, Close} from '@mui/icons-material';
 import {
   useCurrentUser,
-  setDoc,
+  updateDoc,
   uploadBytes,
   doc,
   storage,
@@ -12,63 +13,53 @@ import {
   ref,
   getDownloadURL,
 } from '../../firebase';
-import clsx from 'clsx';
 
-const CreateComment = ({postId, parentId, handleClose}, ref) => {
-  const currentUser = useCurrentUser();
-  const [comment, setComment] = useState('');
+const UpdateComment = ({comment, setShowUpdateComment}) => {
+  const [content, setContent] = useState('');
   const [img, setImg] = useState();
   const postBtnRef = useRef();
-  const inputRef = useRef();
   const handleEnter = (e) => {
     if (e.key === 'Enter') {
       e.preventDefault();
       postBtnRef.current.click();
     }
   };
-  const handlePostComment = async () => {
-    if (comment.length > 0) {
-      let id = uuidv4();
-      const commentDoc = doc(db, 'comments', id);
+  useEffect(() => {
+    setContent(comment.content);
+    setImg(comment.image);
+  }, []);
+  const handleUpdateComment = async () => {
+    if (content.length > 0) {
+      const commentDoc = doc(db, 'comments', comment.id);
       const commentData = {
-        author: {
-          avatar: currentUser.photoURL,
-          name: currentUser.displayName,
-          uid: currentUser.uid,
-        },
-        content: comment,
+        content: content,
         image: null,
-        likes: 0,
-        likedUsers: [],
-        createdAt: new Date(),
         updatedAt: new Date(),
-        parentId,
-        postId,
-        id,
       };
       if (img) {
-        const imgRef = ref(storage, `${id}-${img.name}`);
-        const snap = await uploadBytes(imgRef, img);
-        const imgURL = await getDownloadURL(ref(storage, snap.ref.fullPath));
-        commentData.image = imgURL;
-        URL.revokeObjectURL(img);
+        if (typeof img === 'object') {
+          const imgRef = ref(storage, `${comment.id}-${img.name}`);
+          const snap = await uploadBytes(imgRef, img);
+          const imgURL = await getDownloadURL(ref(storage, snap.ref.fullPath));
+          commentData.image = imgURL;
+          URL.revokeObjectURL(img);
+        } else {
+          commentData.image = img;
+        }
         setImg(null);
       }
-      await setDoc(commentDoc, commentData);
-      setComment('');
-      if (handleClose) handleClose();
+      await updateDoc(commentDoc, commentData);
+      setContent('');
+      setShowUpdateComment(false);
     }
   };
   return (
     <div className='w-100'>
       <Form
-        className={clsx('d-flex flex-column bg-white message-form pt-2', {
-          'border pt-4 px-4 pb-2': parentId === null,
-        })}
+        className='d-flex flex-column bg-white message-form'
         onSubmit={() => {
           return false;
         }}
-        ref={inputRef}
         style={{height: 'max-content'}}
       >
         <div className='w-100 d-flex'>
@@ -93,14 +84,12 @@ const CreateComment = ({postId, parentId, handleClose}, ref) => {
             style={{height: 'max-content'}}
           >
             <Form.Control
-              placeholder={
-                parentId !== null ? 'Write a reply...' : 'Write a comment...'
-              }
+              placeholder='Write a comment...'
               aria-label='Message'
               aria-describedby='basic-addon1'
-              value={comment}
+              value={content}
               onChange={(e) => {
-                setComment(e.target.value);
+                setContent(e.target.value);
               }}
               autoFocus
               onKeyPress={handleEnter}
@@ -110,7 +99,7 @@ const CreateComment = ({postId, parentId, handleClose}, ref) => {
             className='cursor-pointer send-btn'
             style={{height: 35}}
             ref={postBtnRef}
-            onClick={handlePostComment}
+            onClick={handleUpdateComment}
           >
             <Send fontSize='large' sx={{color: '#0088ff'}} />
           </div>
@@ -140,4 +129,4 @@ const CreateComment = ({postId, parentId, handleClose}, ref) => {
   );
 };
 
-export default CreateComment;
+export default UpdateComment;

@@ -23,17 +23,20 @@ const SavedPosts = () => {
       const docSnap = await getDoc(userRef);
       const savedPosts = [];
       if (docSnap.exists()) {
+        console.log(docSnap.data().saved);
         setSavedPostRefs(docSnap.data().saved);
-        if (docSnap.data().saved?.length) {
+        if (docSnap.data().saved.length) {
           for (let i = 0; i < docSnap.data().saved.length; i++) {
-            let postRef = docSnap.data().saved[i];
-            let post = await getDoc(postRef);
+            let postId = docSnap.data().saved[i];
+            let post = await getDoc(doc(db, 'post', postId));
             savedPosts[i] = post.data();
             savedPosts[i].id = post.id;
-            let authorRef = post.data().author;
-            let author = await getDoc(authorRef);
+            let authorId = post.data().author.uid;
+            let author = await getDoc(doc(db, 'users', authorId));
             savedPosts[i].author = author.data();
+            console.log(savedPosts);
           }
+          console.log(savedPosts);
           setSavedPosts(savedPosts);
         }
       } else {
@@ -57,7 +60,7 @@ const SavedPosts = () => {
     setSavedPostRefs(newSavedPostRefs);
     setSavedPosts(newSavedPost);
   };
-  const unsaveAllPosts = async (index) => {
+  const unsaveAllPosts = async () => {
     const userRef = doc(db, 'users', currentUser.uid);
     await updateDoc(userRef, {
       saved: [],

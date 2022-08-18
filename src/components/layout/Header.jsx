@@ -7,6 +7,7 @@ import {
   Container,
   InputGroup,
   Form,
+  Button,
 } from 'react-bootstrap';
 import clsx from 'clsx';
 import {getUsers} from '../../services/search';
@@ -19,8 +20,6 @@ import {
   db,
   collection,
   query,
-  where,
-  getDocs,
   onSnapshot,
 } from '../../firebase';
 import {
@@ -115,58 +114,60 @@ const Header = () => {
       setSearchResultContainer('invisible');
     }
   };
-  if (currentUser) {
-    return (
-      <Navbar
-        style={{background: '#fff', zIndex: 100}}
-        expand='lg'
-        className='position-fixed top-0 w-100 shadow-sm '
-      >
-        <Container fluid className='px-3 d-flex flex-column flex-lg-row'>
-          <div className='d-flex align-items-center justify-content-between navbar-top'>
-            <Link className='navbar-brand' to='/'>
-              <img src={logo} alt='logo' height={80} width={80} />
-            </Link>
-            <InputGroup
-              className='w-100 postition-relative'
-              style={{height: 45, maxWidth: 400, zIndex: 3500}}
-            >
-              <Link
-                id='basic-addon1'
-                className='d-flex justify-content-center align-items-center bg-white cursor-pointer border border-dark text-dark px-2'
-                to={`/search?q=${searchValue}`}
-                style={{
-                  pointerEvents: searchValue.length ? 'auto' : 'none',
-                }}
-                onClick={() => {
+  return (
+    <Navbar
+      style={{background: '#fff', zIndex: 100}}
+      expand='lg'
+      className='position-fixed top-0 w-100 shadow-sm '
+    >
+      <Container fluid className='px-3 d-flex flex-column flex-lg-row'>
+        <div className='d-flex align-items-center justify-content-between navbar-top'>
+          <Link className='navbar-brand' to='/'>
+            <img src={logo} alt='logo' height={80} width={80} />
+          </Link>
+          <InputGroup
+            className='w-100 postition-relative'
+            style={{height: 45, maxWidth: 400, zIndex: 3500}}
+          >
+            <Link
+              id='basic-addon1'
+              className='d-flex justify-content-center align-items-center bg-white cursor-pointer border border-dark text-dark px-2'
+              to={`/search?q=${searchValue}`}
+              style={{
+                pointerEvents: searchValue.length ? 'auto' : 'none',
+              }}
+              onClick={() => {
+                if (currentUser) {
                   searchRef.current.blur();
                   setSearchResultContainer('invisible');
-                }}
-                ref={searchBtnRef}
-              >
-                <Search />
-              </Link>
-              <Form.Control
-                className='border-start-0 outline-0 shadow-none border-dark'
-                placeholder='Search'
-                aria-label='Search'
-                aria-describedby='basic-addon1'
-                onChange={(e) => {
-                  setSearchValue(e.target.value);
-                  startTransition(() => {
-                    setSearchFilterValue(e.target.value);
-                  });
-                }}
-                value={searchValue}
-                onFocus={() => setSearchResultContainer('visible')}
-                onBlur={handleBlurSearch}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    searchBtnRef.current.click();
-                  }
-                }}
-                ref={searchRef}
-              />
+                }
+              }}
+              ref={searchBtnRef}
+            >
+              <Search />
+            </Link>
+            <Form.Control
+              className='border-start-0 outline-0 shadow-none border-dark'
+              placeholder='Search'
+              aria-label='Search'
+              aria-describedby='basic-addon1'
+              onChange={(e) => {
+                setSearchValue(e.target.value);
+                startTransition(() => {
+                  setSearchFilterValue(e.target.value);
+                });
+              }}
+              value={searchValue}
+              onFocus={() => setSearchResultContainer('visible')}
+              onBlur={handleBlurSearch}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  searchBtnRef.current.click();
+                }
+              }}
+              ref={searchRef}
+            />
+            {currentUser && (
               <div
                 tabIndex='0'
                 className={clsx(
@@ -221,8 +222,10 @@ const Header = () => {
                   </Link>
                 )}
               </div>
-            </InputGroup>
-          </div>
+            )}
+          </InputGroup>
+        </div>
+        {currentUser && (
           <Nav className='d-flex align-items-center navbar-bottom'>
             {navItemsList.map((item) => {
               return (
@@ -299,10 +302,16 @@ const Header = () => {
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
-        </Container>
-      </Navbar>
-    );
-  }
+        )}
+        {!currentUser && (
+          <div>
+            <Button variant='primary'>Login in</Button>
+            <Button variant='secondary'>Sign up</Button>
+          </div>
+        )}
+      </Container>
+    </Navbar>
+  );
 };
 
 export default Header;

@@ -27,7 +27,11 @@ const MessageForm = ({handleSubmit, message, setMessage, setImg}) => {
                     id='img'
                     accept='image/*'
                     style={{display: 'none'}}
-                    onChange={(e) => setImg(e.target.files[0])}
+                    onChange={(e) => {
+                        const img = e.target.files[0];
+                        img.preview = URL.createObjectURL(img);
+                        setImg(img)
+                    }}
                 />
             </div>
             <InputGroup className='mb-3 mx-3 d-flex align-items-center'>

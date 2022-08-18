@@ -1,22 +1,27 @@
 import React, {useEffect, useState} from 'react';
 import {useParams} from 'react-router-dom';
-import {getPostsById} from '../services/search';
+import {doc, onSnapshot, db} from '../firebase';
 import {useNavItemContext} from '../context/navItemContext';
-const Post = () => {
-    const {postId} = useParams();
-    const {setActiveNavItem} = useNavItemContext();
-    const [post, setPost] = useState();
-    useEffect(() => {
-        setActiveNavItem('');
+import {Post} from '../components';
+const SearchPost = () => {
+  const {postId} = useParams();
+  const {setActiveNavItem} = useNavItemContext();
+  const [post, setPost] = useState();
+  useEffect(() => {
+    setActiveNavItem('');
+  });
+  useEffect(() => {
+    const unsub = onSnapshot(doc(db, 'post', postId), (doc) => {
+      console.log('Current data: ', doc.data());
+      setPost(doc.data());
     });
-    useEffect(() => {
-        const getPost = async () => {
-            const post = await getPostsById(postId);
-            setPost(post);
-        };
-        getPost();
-    }, [postId]);
-    return <div></div>;
+    return () => unsub();
+  }, [postId]);
+  return (
+    <div className='d-flex justify-content-center align-items-center w-100'>
+      {post ? <Post post={post} /> : <p>No post found!</p>}
+    </div>
+  );
 };
 
-export default Post;
+export default SearchPost;

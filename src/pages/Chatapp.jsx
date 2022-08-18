@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import clsx from 'clsx';
-import {useNavigate} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {useNavItemContext} from '../context/navItemContext';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import CloseIcon from '@mui/icons-material/Close'
 import {
   useCurrentUser,
   db,
@@ -28,7 +29,7 @@ const Chatapp = () => {
   const {setActiveNavItem} = useNavItemContext();
   const [chat, setChat] = useState('');
   const [users, setUsers] = useState([]);
-  const [img, setImg] = useState('');
+  const [img, setImg] = useState();
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
   const currentUser = useCurrentUser();
@@ -56,7 +57,7 @@ const Chatapp = () => {
     }
   }, []);
   const user1 = currentUser ? currentUser.uid : '';
-  const selectUser = async (user) => {
+  const selectUser = async (user) => {  
     setChat(user);
     const user2 = user.uid;
     const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
@@ -92,6 +93,8 @@ const Chatapp = () => {
           ref(storage, snap.ref.fullPath)
         );
         url = downloadUrl;
+        URL.revokeObjectURL(img);
+        setImg(null);
       }
       await addDoc(collection(db, 'message', id, 'chat'), {
         message,
@@ -159,7 +162,7 @@ const Chatapp = () => {
                   >
                     <ArrowBackIcon fontSize='large' />
                   </div>
-                  <div className='text-center d-flex flex-row-reverse flex-lg-row align-items-center w-100 justify-content-between'>
+                  <Link to={`profile/${chat.uid}`} className='text-decoration-none text-center d-flex flex-row-reverse flex-lg-row align-items-center w-100 justify-content-between'>
                     <img
                       className='me-auto rounded-circle'
                       width={65}
@@ -167,8 +170,8 @@ const Chatapp = () => {
                       alt='logo'
                       src={chat.avatar}
                     />
-                    <h3 className='text-center flex-fill'>{chat.name}</h3>
-                  </div>
+                    <h3 className='text-center flex-fill text-dark '>{chat.name}</h3>
+                  </Link>
                 </div>
                 <div
                   className='message-container position-absolute w-100'
@@ -194,6 +197,20 @@ const Chatapp = () => {
                         })
                       : null}
                   </div>
+                  {img && 
+                  <div className='position-fixed px-2' style={{height: 100, width:'fit-content', bottom: 90}}>
+                    <img src={img.preview} alt='' className='h-100'/>
+                    <div
+                              className='ms-auto rounded-circle p-1 cursor-pointer position-absolute top-0 end-0'
+                              style={{
+                                aspectRatio: '1/1',
+                                background: '#e4e6eb',
+                              }}
+                              onClick={() => setImg(null)}
+                            >
+                              <CloseIcon />
+                            </div>
+                  </div>}
                   <MessageForm
                     handleSubmit={handleChat}
                     message={message}
