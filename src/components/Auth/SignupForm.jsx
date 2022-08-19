@@ -35,7 +35,8 @@ const SignupForm = () => {
   const updateUserInfo = async () => {
     const avatarRef = ref(storage, `avatar/${user.user.uid}.png`);
     const userDoc = doc(db, 'users', user.user.uid);
-    let avatarUrl = defaultAvatar;
+    let avatarUrl =
+      'https://firebasestorage.googleapis.com/v0/b/jsi-project-cfc82.appspot.com/o/avatar%2Fdefault-avatar.png?alt=media&token=29fb48d3-8792-41b1-a060-a03b5c70b732';
     if (avatar) {
       await uploadFile(avatarRef, avatar, {
         contentType: 'image/png',
@@ -45,6 +46,7 @@ const SignupForm = () => {
     }
 
     await updateProfile({displayName: username, photoURL: avatarUrl});
+    console.log(user);
     await setDoc(userDoc, {
       uid: currentUser.uid,
       name: currentUser.displayName,
