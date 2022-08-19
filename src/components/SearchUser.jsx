@@ -10,7 +10,7 @@ const SearchUser = ({data}) => {
             return (
               <Link
                 tabIndex='0'
-                className='w-100 d-flex justify-content-start bg-white p-3 align-items-center rounded-2 search-item text-decoration-none mb-2'
+                className='w-100 d-flex justify-content-start bg-white p-1  p-ms-3 align-items-center rounded-2 search-item text-decoration-none mb-2'
                 key={index}
                 to={`/profile/${user.uid}`}
               >
@@ -19,7 +19,7 @@ const SearchUser = ({data}) => {
                   alt='avatar'
                   height='60'
                   width='60'
-                  className='rounded-circle me-5'
+                  className='rounded-circle me-sm-5 me-2'
                 />
                 <p className='fs-4 m-0 text-dark text-decoration-none'>
                   {user.name}

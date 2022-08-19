@@ -118,10 +118,10 @@ const Header = () => {
     <Navbar
       style={{background: '#fff', zIndex: 100}}
       expand='lg'
-      className='position-fixed top-0 w-100 shadow-sm '
+      className='position-fixed top-0 w-100 shadow-sm p-0'
     >
-      <Container fluid className='px-3 d-flex flex-column flex-lg-row'>
-        <div className='d-flex align-items-center justify-content-between navbar-top'>
+      <Container fluid className='px-3 d-flex flex-column flex-lg-row p-0'>
+        <div className='d-flex align-items-center justify-content-between navbar-top p-0'>
           <Link className='navbar-brand' to='/'>
             <img src={logo} alt='logo' height={80} width={80} />
           </Link>

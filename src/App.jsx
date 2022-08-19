@@ -31,9 +31,9 @@ function App() {
         className='d-flex app-container'
         style={{
           background: 'var(--bg-color)',
-          minHeight: 'calc(100vh - 106px)',
+          minHeight: 'calc(100vh - 90px)',
           marginLeft: 62,
-          marginTop: 106,
+          marginTop: 90,
         }}
       >
         <Sidebar />
