@@ -80,7 +80,7 @@ const Profile = () => {
       {user && posts ? (
         <div className='d-flex flex-column w-100'>
           <ProfileHeader user={user} />
-          <div className='w-100 mt-5 d-flex flex-column justify-content-center'>
+          <div className='w-100 mt-5 d-flex flex-column align-items-center'>
             {posts.map((post, index) => {
               return (
                 <Post
