@@ -33,7 +33,7 @@ const SavedPost = ({data, unsavePost, index}) => {
       </Modal>
       <div className='w-100 bg-white d-flex p-3 rounded-3 mb-3'>
         <Link
-          to={data.images ? `post/${data.id}:` : `profile/${data.author.uid}`}
+          to={data.images ? `/post/${data.id}:` : `/profile/${data.author.uid}`}
           className='rounded-4 me-4 border'
         >
           <img
@@ -46,7 +46,7 @@ const SavedPost = ({data, unsavePost, index}) => {
         <div className='flex-fill d-flex flex-column justify-content-between'>
           <Link
             className='w-100 overflow-hidden mt-2 text-dark text-decoration-none w-100'
-            to={`post/${data.id}`}
+            to={`/post/${data.id}`}
           >
             <p
               className='fw-bold fs-4 saved-post-overflow w-100 m-0'

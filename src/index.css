@@ -123,12 +123,11 @@ hr {
   }
   /*Profile header*/
   .profile-header {
-    top: 240px;
+    top: 156px;
     left: 0;
   }
   /*Profile post container*/
   .profile-posts-container {
-    margin-top: 211px !important;
     margin-left: 0 !important;
   }
   /*Navbar*/

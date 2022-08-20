@@ -163,7 +163,7 @@ const Chatapp = () => {
                     <ArrowBackIcon fontSize='large' />
                   </div>
                   <Link
-                    to={`profile/${chat.uid}`}
+                    to={`/profile/${chat.uid}`}
                     className='text-decoration-none text-center d-flex flex-row-reverse flex-lg-row align-items-center w-100 justify-content-between'
                   >
                     <img

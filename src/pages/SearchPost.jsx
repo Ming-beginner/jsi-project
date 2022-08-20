@@ -12,7 +12,6 @@ const SearchPost = () => {
   });
   useEffect(() => {
     const unsub = onSnapshot(doc(db, 'post', postId), (doc) => {
-      console.log('Current data: ', doc.data());
       setPost(doc.data());
     });
     return () => unsub();

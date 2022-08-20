@@ -23,7 +23,6 @@ const SavedPosts = () => {
       const docSnap = await getDoc(userRef);
       const savedPosts = [];
       if (docSnap.exists()) {
-        console.log(docSnap.data().saved);
         setSavedPostRefs(docSnap.data().saved);
         if (docSnap.data().saved.length) {
           for (let i = 0; i < docSnap.data().saved.length; i++) {
@@ -34,9 +33,7 @@ const SavedPosts = () => {
             let authorId = post.data().author.uid;
             let author = await getDoc(doc(db, 'users', authorId));
             savedPosts[i].author = author.data();
-            console.log(savedPosts);
           }
-          console.log(savedPosts);
           setSavedPosts(savedPosts);
         }
       } else {

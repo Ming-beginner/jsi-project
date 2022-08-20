@@ -75,10 +75,10 @@ const Profile = () => {
   return (
     <div
       className='d-flex justify-content-center align-items-center w-100 profile-posts-container'
-      style={{marginTop: 130, marginLeft: 62}}
+      style={{marginLeft: 62}}
     >
       {user && posts ? (
-        <div className='d-flex flex-column'>
+        <div className='d-flex flex-column w-100'>
           <ProfileHeader user={user} />
           <div className='w-100 mt-5'>
             {posts.map((post, index) => {
