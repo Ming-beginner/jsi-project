@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import {Link, useNavigate} from 'react-router-dom';
 import {useNavItemContext} from '../context/navItemContext';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import CloseIcon from '@mui/icons-material/Close'
+import CloseIcon from '@mui/icons-material/Close';
 import {
   useCurrentUser,
   db,
@@ -57,7 +57,7 @@ const Chatapp = () => {
     }
   }, []);
   const user1 = currentUser ? currentUser.uid : '';
-  const selectUser = async (user) => {  
+  const selectUser = async (user) => {
     setChat(user);
     const user2 = user.uid;
     const id = user1 > user2 ? `${user1 + user2}` : `${user2 + user1}`;
@@ -162,7 +162,10 @@ const Chatapp = () => {
                   >
                     <ArrowBackIcon fontSize='large' />
                   </div>
-                  <Link to={`profile/${chat.uid}`} className='text-decoration-none text-center d-flex flex-row-reverse flex-lg-row align-items-center w-100 justify-content-between'>
+                  <Link
+                    to={`profile/${chat.uid}`}
+                    className='text-decoration-none text-center d-flex flex-row-reverse flex-lg-row align-items-center w-100 justify-content-between'
+                  >
                     <img
                       className='me-auto rounded-circle'
                       width={65}
@@ -170,18 +173,20 @@ const Chatapp = () => {
                       alt='logo'
                       src={chat.avatar}
                     />
-                    <h3 className='text-center flex-fill text-dark '>{chat.name}</h3>
+                    <h3 className='text-center flex-fill text-dark '>
+                      {chat.name}
+                    </h3>
                   </Link>
                 </div>
                 <div
                   className='message-container position-absolute w-100'
                   style={{
-                    height: 'calc(100% - 99px)',
+                    height: 'calc(100% - 189px)',
                     overflowY: 'scroll',
                     bottom: 88,
                   }}
                 >
-                  <div className='messages' style={{marginBottom: 88}}>
+                  <div className='messages'>
                     {messages.length
                       ? messages.map((message, index) => {
                           return (
@@ -197,20 +202,24 @@ const Chatapp = () => {
                         })
                       : null}
                   </div>
-                  {img && 
-                  <div className='position-fixed px-2' style={{height: 100, width:'fit-content', bottom: 90}}>
-                    <img src={img.preview} alt='' className='h-100'/>
+                  {img && (
                     <div
-                              className='ms-auto rounded-circle p-1 cursor-pointer position-absolute top-0 end-0'
-                              style={{
-                                aspectRatio: '1/1',
-                                background: '#e4e6eb',
-                              }}
-                              onClick={() => setImg(null)}
-                            >
-                              <CloseIcon />
-                            </div>
-                  </div>}
+                      className='position-fixed px-2'
+                      style={{height: 100, width: 'fit-content', bottom: 90}}
+                    >
+                      <img src={img.preview} alt='' className='h-100' />
+                      <div
+                        className='ms-auto rounded-circle p-1 cursor-pointer position-absolute top-0 end-0'
+                        style={{
+                          aspectRatio: '1/1',
+                          background: '#e4e6eb',
+                        }}
+                        onClick={() => setImg(null)}
+                      >
+                        <CloseIcon />
+                      </div>
+                    </div>
+                  )}
                   <MessageForm
                     handleSubmit={handleChat}
                     message={message}

@@ -73,7 +73,7 @@ hr {
 /*Profile header*/
 
 .profile-header {
-  top: 106px;
+  top: 90px;
   left: 62px;
   right: 0;
 }
@@ -109,9 +109,12 @@ hr {
     height: 45px;
     width: 45px;
   }
+  .message-container {
+    height: calc(100% - 213px) !important;
+  }
   /*Setting*/
   .app-container {
-    margin-top: 156px !important;
+    margin-top: 172px !important;
     margin-left: 0 !important;
   }
   /*Home*/
@@ -120,7 +123,7 @@ hr {
   }
   /*Profile header*/
   .profile-header {
-    top: 156px;
+    top: 240px;
     left: 0;
   }
   /*Profile post container*/
